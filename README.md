@@ -13,7 +13,7 @@
 ```
 <ion-item detail-push>
    <ion-label color="dark">所在地区：</ion-label>
-     <ion-multi-picker id="default" item-content                  [(ngModel)]="default" separator="-" [multiPickerColumns]="AddressColumns" placeholderText="{{default}}" cancelText="取消" doneText="确定"></ion-multi-picker>
+     <ion-multi-picker id="default" item-content [(ngModel)]="default" separator="-" [multiPickerColumns]="AddressColumns" placeholderText="{{default}}" cancelText="取消" doneText="确定"></ion-multi-picker>
 </ion-item>
 ```
 ### ts
