@@ -1,299 +1,52 @@
-# Ion-Multi-Picker 
+# Ion-Multi-Picker
+本插件修改于 [https://github.com/raychenfj/ion-multi-picker](https://github.com/raychenfj/ion-multi-picker)
+具体插件设置请参照原作者。
 
+# 修改内容
+在原作者的插件使用中遇到以下问题，当我们设置[(ngModel)]属性的时候，在第一次显示的时候并不会有值。
 
-[![Build Status](https://travis-ci.org/raychenfj/ion-multi-picker.svg?branch=master)](https://travis-ci.org/raychenfj/ion-multi-picker) [![Dependency Status](https://david-dm.org/raychenfj/ion-multi-picker.svg)](https://david-dm.org/raychenfj/ion-multi-picker) [![devDependencies Status](https://david-dm.org/raychenfj/ion-multi-picker/dev-status.svg)](https://david-dm.org/raychenfj/ion-multi-picker?type=dev) [![npm version](https://badge.fury.io/js/ion-multi-picker.svg)](https://badge.fury.io/js/ion-multi-picker) [![npm download](https://img.shields.io/npm/dm/ion-multi-picker.svg)](https://www.npmjs.com/package/ion-multi-picker)
+比如我们设置[(ngModel)] = "default"的，并将default的值设置为default="请选择地址"的时候，请选择地址这个值并不会显示在页面上。
 
+所以我这里对原插件做了一些修改，在原插件的基础上面添加了一个新的属性placeholderText；
 
-Ion Multi Item Picker--An Ionic2 Custom Picker Component
-
-Simulate IOS multi column picker by ionic2 picker.
-
-**For ionic 2.x, please use ion-multi-picker 1.x**
-
-Github: [https://github.com/raychenfj/ion-multi-picker](https://github.com/raychenfj/ion-multi-picker)
-
-NPM: [https://www.npmjs.com/package/ion-multi-picker](https://www.npmjs.com/package/ion-multi-picker)
-
-## Preview
-### Picker with Independent/ Dependent Columns
-
-![Picker with Independent Columns](https://github.com/raychenfj/ion-multi-picker/blob/master/img/independent.gif?raw=true)
-![Picker with Dependent Columns](https://github.com/raychenfj/ion-multi-picker/blob/master/img/dependent.gif?raw=true)
-
-## Demo
-Check out the live demo here: [https://raychenfj.github.io/ion-multi-picker/](https://raychenfj.github.io/ion-multi-picker/)
-
-## Supported Version
-
-Ionic2 3.0.1
-
-## Installation
+### html
 ```
-npm install ion-multi-picker --save
-```
-
-## Usage
-
-### Basic
-1.Import MultiPickerModule to your app/module.
-```Typescript
-import { MultiPickerModule } from 'ion-multi-picker';
-
-@NgModule({
-  declarations: [
-    MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
-    TabsPage,
-  ],
-  imports: [
-    IonicModule.forRoot(MyApp),
-    MultiPickerModule //Import MultiPickerModule
-  ],
-  bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
-    TabsPage,
-  ],
-  providers: []
-})
-export class AppModule {}
-```
-2.Initialize picker columns in your controller.
-```typescript
-constructor(private navCtrl: NavController) {
-  this.simpleColumns = [
-    {
-      name: 'col1',
-      options: [
-        { text: '1', value: '1' },
-        { text: '2', value: '2' },
-        { text: '3', value: '3' }
-      ]
-    },{
-      name: 'col2',
-      options: [
-        { text: '1-1', value: '1-1' },
-        { text: '1-2', value: '1-2' },
-        { text: '2-1', value: '2-1' },
-        { text: '2-2', value: '2-2' },
-        { text: '3-1', value: '3-1' }
-      ]
-    },{
-      name: 'col3',
-      options: [
-        { text: '1-1-1', value: '1-1-1' },
-        { text: '1-1-2', value: '1-1-2' },
-        { text: '1-2-1', value: '1-2-1' },
-        { text: '1-2-2', value: '1-2-2' },
-        { text: '2-1-1', value: '2-1-1' },
-        { text: '2-1-2', value: '2-1-2' },
-        { text: '2-2-1', value: '2-2-1' },
-        { text: '2-2-2', value: '2-2-2' },
-        { text: '3-1-1', value: '3-1-1' },
-        { text: '3-1-2', value: '3-1-2' }
-      ]
-    }
-  ];
-}
-```
-You can use `parentVal` property to create dependency between each column.
-```typescript
-  this.dependentColumns = [
-    {
-      options: [
-        { text: '1', value: '1' },
-        { text: '2', value: '2' },
-        { text: '3', value: '3' }
-      ]
-    },{
-      options: [
-        { text: '1-1', value: '1-1', parentVal: '1' },
-        { text: '1-2', value: '1-2', parentVal: '1' },
-        { text: '2-1', value: '2-1', parentVal: '2' },
-        { text: '2-2', value: '2-2', parentVal: '2' },
-        { text: '3-1', value: '3-1', parentVal: '3' }
-      ]
-    }];
-```
-3.Add ion-multi-picker to your html template. 
-
-```html
-    <ion-item>
-        <ion-label>Simple Picker</ion-label>
-        <ion-multi-picker item-content [multiPickerColumns]="simpleColumns"></ion-multi-picker>
-    </ion-item>
-```
-**Note: Don't miss the `item-content` attribute**
-
-Like other ionic components, you can use `[(ngModel)]` to bind your data.
-
-```html
-	<ion-item>
-        <ion-label>Default Value</ion-label>
-        <ion-multi-picker id="default" [(ngModel)] = "default" item-content [multiPickerColumns]="dependentColumns"></ion-multi-picker>
-    </ion-item>
-```
-
-Set `disabled` to `true` to prevent interaction.
-
-```html
-    <ion-item>
-        <ion-label>Disabled Picker</ion-label>
-        <ion-multi-picker item-content [multiPickerColumns]="dependentColumns" [disabled]="true"></ion-multi-picker>
-    </ion-item>
-```
-
-### Using Enum
-
-It's a good case to use picker to choose value for an enum variable. 
-
-This componennt now provide a shorthand util function `convertEnumToColumns` to generate column from enum type,
-and also you can bind a enum variable to `ngModel`. 
-
-Check the example fruit picker in the demo.
-
-1. Use `convertEnumToColumns` to generate columns;
-
-```typescript
-import { convertEnumToColumn } from 'ion-multi-picker';
-
-enum Fruit {
-  Apple, Orange, Melon, Banana, Pear,
-}
-
-export class YourPage {
-  fruits: any[];
-  fruit: Fruit;
-  Fruit;
-
-  constructor(public navCtrl: NavController) {
-    // Using enum
-	this.fruit = Fruit.Melon;
-	this.Fruit = Fruit;
-	this.fruits = convertEnumToColumn(this.Fruit);
-  }
-}
-```
-
-2. Binding enum variable to `ngModel`;
-```html
-<ion-item>
-	<ion-label>Fruit Picker</ion-label>
-	<ion-multi-picker id="fruit" [(ngModel)]="fruit" item-content [multiPickerColumns]="fruits"></ion-multi-picker>
+<ion-item detail-push>
+   <ion-label color="dark">所在地区：</ion-label>
+     <ion-multi-picker id="default" item-content                  [(ngModel)]="default" separator="-" [multiPickerColumns]="AddressColumns" placeholderText="{{default}}" cancelText="取消" doneText="确定"></ion-multi-picker>
 </ion-item>
 ```
-
-### Value Separator
-When there are multiple columns, it need a separator to separate values from different columns. 
-
-The separator is space `' '` by default. Now you can customize the separator by using input property `[separator]`.
-
-Instead of define a property in your controller, you can directly pass a string or a char like below:
-```
-<ion-multi-picker id="separator" [(ngModel)]="sepVal" item-content [multiPickerColumns]="sepColumns" [separator]="'_'"></ion-multi-picker>
-```    
-
-And the multi picker's return value should format like `val1_val2_val3`.
-
-### Parent Column
-
-When use as a dependent picker, by default the dependency sequence is from left to right.
-
-Now with `parentCol`, you can configure your own dependency sequence when needed, like from right to left.
-
-The picker columns should be configured as below. The `parentCol` should be another column's `name` or `alias`.
+### ts
 
 ```
-    // Using parentCol
-    this.parentColumns = [
-      {
-        name: 'child',
-        parentCol: 'parent',
-        options: [
-          { text: '1-1-1', value: '1-1-1', parentVal: '1-1' },
-          { text: '1-1-2', value: '1-1-2', parentVal: '1-1' },
-          { text: '1-2-1', value: '1-2-1', parentVal: '1-2' },
-          { text: '1-2-2', value: '1-2-2', parentVal: '1-2' },
-          { text: '2-1-1', value: '2-1-1', parentVal: '2-1' },
-          { text: '2-1-2', value: '2-1-2', parentVal: '2-1' },
-          { text: '2-2-1', value: '2-2-1', parentVal: '2-2' },
-          { text: '2-2-2', value: '2-2-2', parentVal: '2-2' }
-        ]
-      },{
-        name: 'parent',
-        parentCol: 'ancestor',
-        options: [
-          { text: '1-1', value: '1-1', parentVal: '1' },
-          { text: '1-2', value: '1-2', parentVal: '1' },
-          { text: '2-1', value: '2-1', parentVal: '2' },
-          { text: '2-2', value: '2-2', parentVal: '2' },
-        ]
-      },{
-        name: 'ancestor',
-        options: [
-          { text: '1', value: '1' },
-          { text: '2', value: '2' }
-        ]
-      }
-    ];
+default = '请选择收货地址';
+AddressColumns = [{
+    name: 'province',
+    options: [
+      { text: '四川省', value: '1' }
+    ]
+  }, {
+    name: 'city',
+    parentCol: 'province',
+    options: [
+      { text: '成都市', value: '2', parentVal: '1' }
+    ]
+  }, {
+    name: 'district',
+    parentCol: 'city',
+    options: [
+      { text: '锦江区', value: '3', parentVal: '2' },
+      { text: '青羊区', value: '4', parentVal: '2' },
+      { text: '金牛区', value: '5', parentVal: '2' },
+      { text: '武侯区', value: '6', parentVal: '2' },
+      { text: '成华区', value: '7', parentVal: '2' },
+      { text: '龙泉驿区', value: '8', parentVal: '2' },
+      { text: '青白江区', value: '9', parentVal: '2' },
+      { text: '新都区', value: '10', parentVal: '2' },
+      { text: '温江区', value: '11', parentVal: '2' },
+      { text: '双流区', value: '12', parentVal: '2' },
+      { text: '郫都区', value: '13', parentVal: '2' },
+      { text: '高新区', value: '14', parentVal: '2' }
+    ]
+  }];
 ```
-
-## Attributes
-| Attribute | Description | Type | Options | Default|
-|-----------|-------------|------|---------|--------|
-|multiPickerColumns| **Required**, configure multi picker columns | Array of  MultiPickerColumn| - | - |
-|item-content|**Required**, add this attribute so that this custom component can be display correctly under `ion-item` tag| - | - | - |
-|separator|Optional, charactor to separate value from each column| String | - | space |
-
-## Types
-
-* **MultiPickerColumn**
-
-| Property | Description | Type | Options | Default|
-|-----------|-------------|------|---------|--------|
-|options| **Required**, Options in a column | Array of MultiPickerOption | - | - |
-|name| Optional, Column name | String | - | index start from 0 |
-|parentCol|Optional, when used as a dependent picker, you can specify the parent column|String| - |previous column|
-|alias|Optional, alias for a column, when use parentCol, it will find the column with same name or alias|String| - | - |
-|columnWidth|Optional, specify the column width manually, it accepts a string including **unit** like `%` and `px`|String|-|-|
-
-* **MultiPickerOption**
-
-| Property | Description | Type | Options | Default|
-|-----------|-------------|------|---------|--------|
-|text| **Required**, text displayed in the picker column|String|-|-|
-|value|**Required**, the associated value of the text|String|-|-|
-|parentVal|Optional, specify the dependency between current column and previous column|String|Value from your parent column|-|
-|disabled|Optional, the option is visible or not| Boolean|-| false|
-
-
-## Contribution
-
-Welcome issue report, PR and contributors. Help me improve it.
-
-Fork and `git clone` this project, 
-most code for the multi picker is under `src/app/components/multi-picker`.
-
-The unit test framework is karma + webpack + jasmine. And e2e test is protractor. 
-
-Add your unit test and use `npm test` to start karma.
-
-Add your e2e test, run `ionic serve` on the example and then in another terminal use `npm run e2e` to run protractor on project root folder.
-
-You can also add your use case in the `app/pages`.
-
-Finally, send me a `PULL REQUEST`.
-
-## Acknowledgement
-Thanks to [HonLuk](https://github.com/HonLuk) for sharing the city data in the demo.
-
-## License
-MIT
-
-## Change Log
-[Change log is here](https://github.com/raychenfj/ion-multi-picker/blob/master/CHANGELOG.md)
