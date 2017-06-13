@@ -2,6 +2,14 @@
 本插件修改于 [https://github.com/raychenfj/ion-multi-picker](https://github.com/raychenfj/ion-multi-picker)
 具体插件设置请参照原作者。
 
+# 安装方法
+```
+npm install https://github.com/DaiHuaXieHuaKai/ion-multi-picker --save
+```
+
+# 使用方法
+使用方法请参照原著。
+
 # 修改内容
 在原作者的插件使用中遇到以下问题，当我们设置[(ngModel)]属性的时候，在第一次显示的时候并不会有值。
 
